@@ -6,6 +6,7 @@ const Baka = () => {
   const [data, setData] = useState([])
   const [date,setDate] = useState("")
   const [CallerName, setCallerName] = useState("");
+  const [submit, setSubmit] = useState(false)
 
   const handleChangeCourse = (event) => {
     setDate(event.target.value);
@@ -14,6 +15,11 @@ const Baka = () => {
   const handleChangeName = (event) => {
     setCallerName(event.target.value);
   }
+
+  const handleSubmit = () => {
+    setSubmit(true)
+  }
+
 
   const getUnique = (arr, comp) => {
     const unique = arr
@@ -45,7 +51,8 @@ const Baka = () => {
 
   return (
     <div>
-       <label>
+      <label>
+        Name:
           <select value={CallerName} onChange={handleChangeName}>
             {uniqueName.map((course) => (
               <option key={course.id} value={course.CallerName}>
@@ -53,20 +60,21 @@ const Baka = () => {
               </option>
             ))}
           </select>
-        </label>
-          <hr />
-        <label>
-          <select value={date} onChange={handleChangeCourse}>
-            {uniqueCouse.sort((a,b) => a.Date > b.Date ? 1 : -1).map((course) => (
-              <option key={course.id} value={course.Date}>
-                {course.Date}
-              </option>
-            ))}
-          </select>
-        </label>
-         
+        </label><hr /><label>
+          Date:
+            <select value={date} onChange={handleChangeCourse}>
+              {uniqueCouse.sort((a, b) => a.Date > b.Date ? 1 : -1).map((course) => (
+                <option key={course.id} value={course.Date}>
+                  {course.Date}
+                </option>
+              ))}
+            </select>
+          </label>
+          <button onClick={handleSubmit}>Submit</button>
+
+        {submit ? 
         <div className='flex'>
-          {filterDropdown.sort((a,b) => a.Time > b.Time ? 1 : -1).map((course) => (
+          {filterDropdown.sort((a,b) => Number(a.Time) > Number(b.Time) ? 1 : -1).map((course) => (
             <div key={course.id} style={{ margin: "10px" }}>
               <p>{course.Time}</p>
               <div className="tooltip-on-hover">⦿</div>
@@ -77,9 +85,12 @@ const Baka = () => {
                 ? course.result.replace(/-->/g, 'to').replace(/[",']/g, '').slice(2,-2).split("\\n").map(place => <p> {place} </p>) 
                 : "No Reply"}
               </div>
+              <div>{course.PhoneNumber}</div>
             </div>
           ))}
         </div>
+      : null}
+
     </div>
   )
 }
