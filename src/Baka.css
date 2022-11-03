@@ -88,6 +88,8 @@ hr {
   .bar >li:last-of-type:after {
     top: -50%;
   } */
-
+ label {
+  margin: 1%;
+ }
  
  
